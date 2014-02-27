@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS media;
 DROP TABLE IF EXISTS properties;
 DROP TABLE IF EXISTS properties_billings;
 DROP TABLE IF EXISTS bpn_certificates;
@@ -8,7 +9,7 @@ DROP TABLE IF EXISTS notaries;
 DROP TABLE IF EXISTS sale_deeds;
 DROP TABLE IF EXISTS vehicles;
 
-CREATE TABLE medias (
+CREATE TABLE media (
     id INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL, -- E.g. PROPERTIES-201 (Medias belong to Properties table ID 201)
     description MEDIUMTEXT, 
