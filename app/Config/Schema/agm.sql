@@ -8,6 +8,17 @@ DROP TABLE IF EXISTS notaries;
 DROP TABLE IF EXISTS sale_deeds;
 DROP TABLE IF EXISTS vehicles;
 
+CREATE TABLE medias (
+    id INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL, -- E.g. PROPERTIES-201 (Medias belong to Properties table ID 201)
+    description MEDIUMTEXT, 
+    file_path VARCHAR(255) NOT NULL,
+    order_num INTEGER(10) UNSIGNED,
+    created DATETIME,
+    modified DATETIME,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE properties (
     id INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
