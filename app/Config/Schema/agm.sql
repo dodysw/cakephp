@@ -13,6 +13,7 @@ CREATE TABLE media (
     id INTEGER(10) UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL, -- E.g. PROPERTIES-201 (Medias belong to Properties table ID 201)
     description MEDIUMTEXT, 
+    file_name VARCHAR(255) NOT NULL,
     file_path VARCHAR(255) NOT NULL,
     order_num INTEGER(10) UNSIGNED,
     created DATETIME,
