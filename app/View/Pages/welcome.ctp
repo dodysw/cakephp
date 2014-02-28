@@ -5,4 +5,11 @@ by Dody Suria Wijaya 2014
 Purpose
 Manage database of fix assets such as vehicles, vehicle ownerships, land, land ownership certificates, and their supporting documents.
 -->
-<h1>AGM Welcome</h1>
+<div class="jumbotron">
+    <h1>Asset Gramt</h1>
+    <p class="leading">
+    Your personal asset management site
+    </p>
+    <p><?php echo $this->Html->link(__("Sign up"), array('controller' => 'Users', 'action' => 'register'), array('class' => 'btn btn-lg btn-success')); ?></p>
+</div>
+<p>Already a user? <?php echo $this->Html->link(__("Log in"), array('controller' => 'Users', 'action' => 'login'), array('class' => 'btn btn-default')); ?></p>
