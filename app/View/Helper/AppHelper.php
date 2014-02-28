@@ -30,4 +30,8 @@ App::uses('Helper', 'View');
  * @package       app.View.Helper
  */
 class AppHelper extends Helper {
+    public function isPageActive($controller, $action = '', $pass = '') {
+        $this_pass = count($this->params['pass'])? $this->params['pass'][0] : '';
+        return ($this->params['controller'] === $controller) && ($action === '' || $this->params['action'] === $action) && ($pass === '' || $this_pass === $pass);
+    }
 }
