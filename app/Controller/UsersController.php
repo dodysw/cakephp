@@ -31,7 +31,24 @@ class UsersController extends AppController {
     }
 
     public function logout() {
+        $this->Session->setFlash(__('You have been logged out'));
         return $this->redirect($this->Auth->logout());
+    }
+
+    public function isAuthorized($user) {
+        if (in_array($this->action, array('edit', 'view'))) {
+            $userId = (int) $this->request->params['pass'][0];
+            if ($userId === $user['id']) {
+                return true;
+            }
+        }
+        if (in_array($this->action, array('myaccount', 'changepassword'))) {
+            if ($this->Auth->loggedIn()) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
     }
 
 /**

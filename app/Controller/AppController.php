@@ -32,13 +32,14 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     public $components = array(
-        //'DebugKit.Toolbar',
+        'DebugKit.Toolbar',
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
                     'passwordHasher' => 'Blowfish'
                 ),
             ),
+            'authError' => 'Sorry, you are not allowed to access that page',
             'loginRedirect' => array(
                 'controller' => 'pages',
                 'action' => 'display',
@@ -47,14 +48,23 @@ class AppController extends Controller {
             'logoutRedirect' => array(
                 'controller' => 'pages',
                 'action' => 'display',
-                'loggedout'
+                'welcome'
             ),
+            'authorize' => array('Controller'),
         ),
+        'Security',
     );
     public $layout = 'bootstrap';
 
     public function beforeFilter() {
         $this->Auth->allow('display');
+    }
+
+    public function isAuthorized($user) {
+        if (isset($user['role']) && $user['role'] === 'admin') {
+            return true;
+        }
+        return false;
     }
 
 }

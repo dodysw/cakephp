@@ -16,6 +16,21 @@ class PropertiesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+    public function isAuthorized($user) {
+        if (in_array($this->action, array('add', 'index'))) {
+            return true;
+        }
+
+        if (in_array($this->action, array('edit', 'delete', 'view'))) {
+            $propertyId = (int) $this->request->params['pass'][0];
+            if ($this->Property->isOwnedBy($propertyId, $user['id'])) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
+
 /**
  * index method
  *
