@@ -1,6 +1,6 @@
 <div class="properties index">
 	<h2><?php echo __('Properties'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class="table table-bordered table-striped">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('name'); ?></th>
@@ -17,7 +17,9 @@
 		<td><?php echo h($property['Property']['id']); ?>&nbsp;</td>
 		<td><?php echo h($property['Property']['name']); ?>&nbsp;</td>
 		<td><?php echo h($property['Property']['description']); ?>&nbsp;</td>
-		<td><?php echo h($property['ParentProperty']['name']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($property['ParentProperty']['name'], array('controller' => 'properties', 'action' => 'view', $property['ParentProperty']['id'])); ?>
+		</td>
 		<td><?php echo h($property['Property']['loc_long']); ?>&nbsp;</td>
 		<td><?php echo h($property['Property']['loc_lat']); ?>&nbsp;</td>
 		<td><?php echo h($property['Property']['created']); ?>&nbsp;</td>
@@ -38,9 +40,9 @@
 	?>	</p>
 	<div class="paging">
 	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
+		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled btn'));
 		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled btn'));
 	?>
 	</div>
 </div>
@@ -49,7 +51,7 @@
 	<ul>
 		<li><?php echo $this->Html->link(__('New Property'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Properties'), array('controller' => 'properties', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Property'), array('controller' => 'properties', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Parent Property'), array('controller' => 'properties', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Bpn Certificates'), array('controller' => 'bpn_certificates', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Bpn Certificate'), array('controller' => 'bpn_certificates', 'action' => 'add')); ?> </li>
 	</ul>

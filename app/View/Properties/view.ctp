@@ -16,9 +16,9 @@
 			<?php echo h($property['Property']['description']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Parent Property Id'); ?></dt>
+		<dt><?php echo __('Parent Property'); ?></dt>
 		<dd>
-			<?php echo h($property['Property']['parent_property_id']); ?>
+			<?php echo $this->Html->link($property['ParentProperty']['name'], array('controller' => 'properties', 'action' => 'view', $property['ParentProperty']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Loc Long'); ?></dt>
@@ -29,6 +29,11 @@
 		<dt><?php echo __('Loc Lat'); ?></dt>
 		<dd>
 			<?php echo h($property['Property']['loc_lat']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Created By'); ?></dt>
+		<dd>
+			<?php echo h($property['Property']['created_by']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Created'); ?></dt>
@@ -51,7 +56,7 @@
 		<li><?php echo $this->Html->link(__('List Properties'), array('action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Property'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Properties'), array('controller' => 'properties', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Property'), array('controller' => 'properties', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Parent Property'), array('controller' => 'properties', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Bpn Certificates'), array('controller' => 'bpn_certificates', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Bpn Certificate'), array('controller' => 'bpn_certificates', 'action' => 'add')); ?> </li>
 	</ul>
@@ -72,6 +77,7 @@
 		<th><?php echo __('Area'); ?></th>
 		<th><?php echo __('Owner Name'); ?></th>
 		<th><?php echo __('Property Id'); ?></th>
+		<th><?php echo __('Created By'); ?></th>
 		<th><?php echo __('Created'); ?></th>
 		<th><?php echo __('Modified'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
@@ -89,6 +95,7 @@
 			<td><?php echo $bpnCertificate['area']; ?></td>
 			<td><?php echo $bpnCertificate['owner_name']; ?></td>
 			<td><?php echo $bpnCertificate['property_id']; ?></td>
+			<td><?php echo $bpnCertificate['created_by']; ?></td>
 			<td><?php echo $bpnCertificate['created']; ?></td>
 			<td><?php echo $bpnCertificate['modified']; ?></td>
 			<td class="actions">
