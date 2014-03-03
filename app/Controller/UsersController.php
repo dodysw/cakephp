@@ -125,9 +125,10 @@ class UsersController extends AppController {
 	public function register() {
 		if ($this->request->is('post')) {
             $this->User->create();
+            $this->request->data['User']['role'] = 'author';
             if ($this->User->save($this->request->data)) {
                 $this->Session->setFlash(__('The user has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('controller' => 'properties', 'action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
             }
@@ -157,6 +158,7 @@ class UsersController extends AppController {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
+        $this->set('roleOptions', $this->User->roleOptions);
 	}
 
 /**
