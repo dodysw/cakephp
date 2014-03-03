@@ -76,6 +76,34 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
+    public function myaccount() {
+        $id = AuthComponent::user('id'); 
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+		$this->set('user', $this->User->find('first', $options));
+    }
+
+	public function changepassword() {
+        $id = AuthComponent::user('id'); 
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash(__('Password has been changed.'));
+				return $this->redirect(array('action' => 'myaccount'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+		}
+	}
+
+
 /**
  * add method
  *

@@ -26,10 +26,23 @@
             <li class="<?php if ($this->Html->isPageActive('pages', 'display', 'contact')): ?>active<?php endif; ?>"><?php echo $this->Html->link('Contact', array('controller' => 'pages', 'action' => 'display', 'contact')) ?></li>
             </ul>
             <h3 class="text-muted"><a href="<?php echo $this->Html->url('/', true) ?>">Asset Gramt</a></h3>
+<?php 
+    $user = AuthComponent::user();
+    if ($user) {
+        echo '<div class=""><p>Hello, <strong>';
+        echo $this->Html->link(($user['fullname'] ? $user['fullname'] : $user['username']), array('controller' => 'users', 'action' => 'myaccount'));
+        echo '</strong>. ';
+        echo $this->Html->link('Log out', array('controller' => 'users', 'action' => 'logout'));
+        echo '</p></div>';
+    }
+?>
         </div>
 <?php
         if (CakeSession::Check('Message.flash')) {
             echo "<div class=\"alert alert-info\">".$this->Session->flash()."</div>";
+        }
+        if (CakeSession::Check('Message.auth')) {
+            echo "<div class=\"alert alert-warning\">". $this->Session->flash('auth') . "</div>";
         }
 ?>
 <?php echo $this->fetch('content'); ?>
