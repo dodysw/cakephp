@@ -38,7 +38,12 @@ class PropertiesController extends AppController {
  */
 	public function index() {
 		$this->Property->recursive = 0;
-		$this->set('properties', $this->Paginator->paginate());
+		$this->set('properties', $this->Paginator->paginate('Property', array('Property.created_by = ' => AuthComponent::user('id'))));
+	}
+
+	public function admin_index() {
+		$this->Property->recursive = 0;
+		$this->set('properties', $this->Paginator->paginate('Property'));
 	}
 
 /**
@@ -64,6 +69,9 @@ class PropertiesController extends AppController {
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Property->create();
+            if (AuthComponent::user()) {
+                $this->request->data['Property']['created_by'] = AuthComponent::user('id');
+            }
 			if ($this->Property->save($this->request->data)) {
 				$this->Session->setFlash(__('The property has been saved.'));
 				return $this->redirect(array('action' => 'index'));
@@ -71,7 +79,7 @@ class PropertiesController extends AppController {
 				$this->Session->setFlash(__('The property could not be saved. Please, try again.'));
 			}
 		}
-		$parentProperties = $this->Property->ParentProperty->find('list');
+		$parentProperties = $this->Property->ParentProperty->find('list', array('conditions' => array('ParentProperty.created_by =' => AuthComponent::user('id'))));
 		$this->set(compact('parentProperties'));
 	}
 

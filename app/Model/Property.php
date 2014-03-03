@@ -71,4 +71,8 @@ class Property extends AppModel {
 		)
 	);
 
+    public function isOwnedBy($id, $userId) {
+        return $this->field('id', array('id' => $id, 'created_by' => $userId)) === $id;
+    }   
+
 }
