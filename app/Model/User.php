@@ -35,9 +35,16 @@ class User extends AppModel {
         ),
         'confirm_password' => array(
             'equaltofield' => array(
-                'rule' => array('equaltofield', 'password'),
+                'rule' => array('equalToField', 'password'),
                 'message' => 'Password confirmation must match',
                 'on' => 'create'
+            )
+        ),
+        'current_password' => array(
+            'currentpassword' => array(
+                'rule' => array('currentPassword'),
+                'message' => 'The current password is incorrect',
+                'on' => 'edit'
             )
         ),
         'role' => array(
@@ -58,12 +65,25 @@ class User extends AppModel {
     }
 
 
-    function equaltofield($check, $otherField) {
+    function equalToField($check, $otherField) {
         $fname = '';
         foreach ($check as $k => $v) {
             $fname = $k;
+            break;
         }
         return $this->data[$this->name][$otherField] === $this->data[$this->name][$fname];
+    }
+
+    function currentPassword($check) {
+        $fname = '';
+        foreach ($check as $k => $v) {
+            $fname = $k;
+            break;
+        }
+        $newPassword = $this->data[$this->alias][$fname];
+        $oldHashedPassword = $this->find('first', array('conditions' => array('User.id' => AuthComponent::user('id')), 'fields' => array('password')))['User']['password'];
+        $passwordHasher = new BlowfishPasswordHasher();
+        return $passwordHasher->check($newPassword, $oldHashedPassword);
     }
 
 

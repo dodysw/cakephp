@@ -13,7 +13,7 @@
 		<legend><?php echo __('Log in'); ?></legend>
 	<?php
 		echo $this->Form->input('username');
-		echo $this->Form->input('password');
+		echo $this->Form->input('password', array('value' => ''));
         echo $this->Form->submit(__('Submit'), array(
             'div' => array('class' => 'form-group'),
             'class' => 'btn btn-default',
