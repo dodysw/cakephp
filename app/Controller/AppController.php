@@ -41,14 +41,12 @@ class AppController extends Controller {
             ),
             'authError' => 'Sorry, you are not allowed to access that page',
             'loginRedirect' => array(
-                'controller' => 'pages',
-                'action' => 'display',
-                'welcome'
+                'controller' => 'gramt',
+                'action' => 'home',
             ),
             'logoutRedirect' => array(
-                'controller' => 'pages',
-                'action' => 'display',
-                'welcome'
+                'controller' => 'gramt',
+                'action' => 'home',
             ),
             'authorize' => array('Controller'),
         ),
