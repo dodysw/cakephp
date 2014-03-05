@@ -1,3 +1,9 @@
+<?php
+	$this->Html->addCrumb('Properties', '/properties');
+	$property = $this->request->data;
+	$this->Html->addCrumb(h($property['Property']['name']), '/properties/view/' . $property['Property']['id']);
+	$this->Html->addCrumb(__('Edit'));
+?>
 <div class="properties form">
 <?php echo $this->Form->create('Property', array(
     'class' => 'form-horizontal', 

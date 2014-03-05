@@ -1,3 +1,8 @@
+<?php
+	$this->Html->addCrumb('Properties', '/properties');
+	$this->Html->addCrumb(h($property['Property']['name']), '/properties/view/' . $property['Property']['id']);
+	$this->Html->addCrumb(__('Add certificate'));
+?>
 <div class="bpnCertificates form">
 <?php echo $this->Form->create('BpnCertificate'); ?>
 	<fieldset>

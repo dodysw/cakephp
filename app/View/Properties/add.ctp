@@ -1,3 +1,7 @@
+<?php
+	$this->Html->addCrumb('Properties', '/properties');
+	$this->Html->addCrumb(__('Add'));
+?>
 <div class="properties form">
 <?php echo $this->Form->create('Property', array(
     'class' => 'form-horizontal', 
