@@ -12,4 +12,3 @@ Manage database of fix assets such as vehicles, vehicle ownerships, land, land o
     </p>
     <p><?php echo $this->Html->link(__("Sign up"), array('controller' => 'users', 'action' => 'register'), array('class' => 'btn btn-lg btn-success')); ?></p>
 </div>
-<p>Already a user? <?php echo $this->Html->link(__("Log in"), array('controller' => 'users', 'action' => 'login'), array('class' => 'btn btn-default')); ?></p>
