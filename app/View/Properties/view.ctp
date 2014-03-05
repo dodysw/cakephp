@@ -1,68 +1,25 @@
+<?php
+	$this->Html->addCrumb('Properties', '/properties');
+	$this->Html->addCrumb(h($property['Property']['name']));
+?>
 <div class="properties view">
-<h2><?php echo __('Property'); ?></h2>
-	<dl>
-		<dt><?php echo __('Id'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Name'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['name']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Description'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['description']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Parent Property'); ?></dt>
-		<dd>
-			<?php echo $this->Html->link($property['ParentProperty']['name'], array('controller' => 'properties', 'action' => 'view', $property['ParentProperty']['id'])); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Loc Long'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['loc_long']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Loc Lat'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['loc_lat']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Created By'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['created_by']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Created'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['created']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Modified'); ?></dt>
-		<dd>
-			<?php echo h($property['Property']['modified']); ?>
-			&nbsp;
-		</dd>
-	</dl>
+<h2><?php echo __('Property') . ' ' . h($property['Property']['name']); ?></h2>
+<p><?php echo h($property['Property']['description']); ?></p>
+<?php if ($property['ParentProperty']['id']): ?>
+<p>This property is listed under: <strong><?php echo $this->Html->link($property['ParentProperty']['name'], array('controller' => 'properties', 'action' => 'view', $property['ParentProperty']['id'])); ?></strong>.</p>
+<?php else: ?>
+<p>This property is a top level property.</p>
+<?php endif; ?>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Property'), array('action' => 'edit', $property['Property']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Property'), array('action' => 'delete', $property['Property']['id']), null, __('Are you sure you want to delete # %s?', $property['Property']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Properties'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Property'), array('action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Properties'), array('controller' => 'properties', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Parent Property'), array('controller' => 'properties', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Bpn Certificates'), array('controller' => 'bpn_certificates', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Bpn Certificate'), array('controller' => 'bpn_certificates', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Bpn Certificates'); ?></h3>
+	<h3><?php echo __('Certificates'); ?></h3>
 	<?php if (!empty($property['BpnCertificate'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
@@ -110,7 +67,7 @@
 
 	<div class="actions">
 		<ul>
-			<li><?php echo $this->Html->link(__('New Bpn Certificate'), array('controller' => 'bpn_certificates', 'action' => 'add')); ?> </li>
+			<li><?php echo $this->Html->link(__('New Certificate'), array('controller' => 'bpn_certificates', 'action' => 'add', $property['Property']['id'])); ?> </li>
 		</ul>
 	</div>
 </div>

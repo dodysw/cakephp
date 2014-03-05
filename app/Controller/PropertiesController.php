@@ -15,6 +15,9 @@ class PropertiesController extends AppController {
  * @var array
  */
 	public $components = array('Paginator', 'Session');
+	public $paginate = array(
+		'limit' => 5
+	);
 
     public function isAuthorized($user) {
         if (in_array($this->action, array('add', 'index'))) {
@@ -38,6 +41,7 @@ class PropertiesController extends AppController {
  */
 	public function index() {
 		$this->Property->recursive = 0;
+		$this->Paginator->settings = $this->paginate;
 		$this->set('properties', $this->Paginator->paginate('Property', array('Property.created_by = ' => AuthComponent::user('id'))));
 	}
 
@@ -97,7 +101,7 @@ class PropertiesController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Property->save($this->request->data)) {
 				$this->Session->setFlash(__('The property has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('action' => 'view', $id));
 			} else {
 				$this->Session->setFlash(__('The property could not be saved. Please, try again.'));
 			}

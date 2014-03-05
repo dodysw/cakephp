@@ -24,21 +24,15 @@
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), null, __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
 		</td>
 	</tr>
-<?php endforeach; ?>
+	<?php endforeach; ?>
 	</table>
-	<p>
+	<ul class="pagination">
 	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled btn'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled btn'));
+		echo $this->Paginator->prev('&laquo;', array('tag' => 'li', 'escape' => false), null, array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'prev disabled', 'escape' => false));
+		echo $this->Paginator->numbers(array('tag' => 'li', 'separator' => '', 'currentClass' => 'active', 'currentTag' => 'a', 'after' => ' <span class="sr-only">(current)</span>'));
+		echo $this->Paginator->next('&raquo;', array('tag' => 'li', 'escape' => false), null, array('tag' => 'li', 'disabledTag' => 'a', 'class' => 'next disabled', 'escape' => false));
 	?>
-	</div>
+	</ul>
 </div>
 <div class="actions">
 	<h3><?php echo __('Actions'); ?></h3>

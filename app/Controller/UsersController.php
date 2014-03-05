@@ -16,40 +16,40 @@ class UsersController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-    public function beforeFilter() {
-        parent::beforeFilter();
-        $this->Auth->allow('register', 'logout');
-    }
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('register', 'logout');
+	}
 
-    public function login() {
-        if ($this->request->is('post')) {
-            if ($this->Auth->login()) {
-                return $this->redirect($this->Auth->redirect());
-            }
-            $this->Session->setFlash(__('Invalid username or password, try again'));
-        }
-    }
+	public function login() {
+		if ($this->request->is('post')) {
+			if ($this->Auth->login() && $this->Auth->identify($this->request, $this->response) !== false) {
+				return $this->redirect($this->Auth->redirect());
+			}
+			$this->Session->setFlash(__('Invalid username or password, try again'));
+		}
+	}
 
-    public function logout() {
-        $this->Session->setFlash(__('You have been logged out'));
-        return $this->redirect($this->Auth->logout());
-    }
+	public function logout() {
+		$this->Session->setFlash(__('You have been logged out'));
+		return $this->redirect($this->Auth->logout());
+	}
 
-    public function isAuthorized($user) {
-        if (in_array($this->action, array('edit', 'view'))) {
-            $userId = (int) $this->request->params['pass'][0];
-            if ($userId === $user['id']) {
-                return true;
-            }
-        }
-        if (in_array($this->action, array('myaccount', 'changepassword'))) {
-            if ($this->Auth->loggedIn()) {
-                return true;
-            }
-        }
+	public function isAuthorized($user) {
+		if (in_array($this->action, array('edit', 'view'))) {
+			$userId = (int)$this->request->params['pass'][0];
+			if ($userId === $user['id']) {
+				return true;
+			}
+		}
+		if (in_array($this->action, array('myaccount', 'changepassword'))) {
+			if ($this->Auth->loggedIn()) {
+				return true;
+			}
+		}
 
-        return parent::isAuthorized($user);
-    }
+		return parent::isAuthorized($user);
+	}
 
 /**
  * index method
@@ -76,17 +76,17 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
-    public function myaccount() {
-        $id = AuthComponent::user('id'); 
+	public function myaccount() {
+		$id = AuthComponent::user('id');
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
-    }
+	}
 
 	public function changepassword() {
-        $id = AuthComponent::user('id'); 
+		$id = AuthComponent::user('id');
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
@@ -103,7 +103,6 @@ class UsersController extends AppController {
 		}
 	}
 
-
 /**
  * add method
  *
@@ -119,22 +118,22 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
-        $this->set('roleOptions', $this->User->roleOptions);
+		$this->set('roleOptions', $this->User->roleOptions);
 	}
 
 	public function register() {
 		if ($this->request->is('post')) {
-            $this->User->create();
-            $this->request->data['User']['role'] = 'author';
-            if ($this->User->save($this->request->data)) {
-                $this->Session->setFlash(__('The user has been saved.'));
-                return $this->redirect(array('controller' => 'properties', 'action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-            }
+			$this->User->create();
+			$this->request->data['User']['role'] = 'author';
+			if ($this->User->save($this->request->data)) {
+				$this->Auth->login();
+				$this->Session->setFlash(__('Thanks for registering, welcome to Asset Gramt.'));
+				return $this->redirect(array('controller' => 'gramt', 'action' => 'home'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			}
 		}
 	}
-
 
 /**
  * edit method
@@ -158,7 +157,7 @@ class UsersController extends AppController {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
-        $this->set('roleOptions', $this->User->roleOptions);
+		$this->set('roleOptions', $this->User->roleOptions);
 	}
 
 /**
@@ -180,4 +179,5 @@ class UsersController extends AppController {
 			$this->Session->setFlash(__('The user could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
-	}}
+	}
+}

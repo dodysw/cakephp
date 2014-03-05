@@ -13,7 +13,22 @@ class BpnCertificatesController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'Session');
+
+    public function isAuthorized($user) {
+        if (in_array($this->action, array('add', 'index'))) {
+            return true;
+        }
+
+        if (in_array($this->action, array('edit', 'delete', 'view'))) {
+            $propertyId = (int) $this->request->params['pass'][0];
+            if ($this->Property->isOwnedBy($propertyId, $user['id'])) {
+                return true;
+            }
+        }
+
+        return parent::isAuthorized($user);
+    }
 
 /**
  * index method
@@ -46,15 +61,28 @@ class BpnCertificatesController extends AppController {
  * @return void
  */
 	public function add() {
+		$propertyId = (int)$this->request->params['pass'][0];
+		$this->loadModel('Property');
+		$options = array('conditions' => array('Property.' . $this->Property->primaryKey => $propertyId), 'Property.created_by' => AuthComponent::user('id'));
+		$property = $this->Property->find('first', $options);
+		if (!$property) {
+			throw new NotFoundException(__('Invalid property'));
+		}
+
 		if ($this->request->is('post')) {
 			$this->BpnCertificate->create();
+            if (AuthComponent::user()) {
+                $this->request->data['BpnCertificate']['created_by'] = AuthComponent::user('id');
+            }
+			$this->request->data['BpnCertificate']['property_id'] = $propertyId; 
 			if ($this->BpnCertificate->save($this->request->data)) {
-				$this->Session->setFlash(__('The bpn certificate has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				$this->Session->setFlash(__('The certificate has been saved.'));
+				return $this->redirect(array('controller' => 'properties', 'action' => 'view', $propertyId));
 			} else {
 				$this->Session->setFlash(__('The bpn certificate could not be saved. Please, try again.'));
 			}
 		}
+		$this->set('property', $property);
 	}
 
 /**

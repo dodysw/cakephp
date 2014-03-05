@@ -4,9 +4,18 @@
 	$this->Html->addCrumb(__('Add certificate'));
 ?>
 <div class="bpnCertificates form">
-<?php echo $this->Form->create('BpnCertificate'); ?>
+<?php echo $this->Form->create('BpnCertificate', array(
+    'class' => 'form-horizontal', 
+    'inputDefaults' => array(
+        'div' => array('class' => 'form-group'),
+        'label' => array('class' => 'control-label col-sm-2'),
+        'class' => 'form-control',
+        'between' => '<div class="col-sm-10">',
+        'after' => '</div>',
+        'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
+    ))); ?>
 	<fieldset>
-		<legend><?php echo __('Add Bpn Certificate'); ?></legend>
+		<legend><?php echo __('Add Certificate'); ?></legend>
 	<?php
 		echo $this->Form->input('cert_num');
 		echo $this->Form->input('cert_num_full');
@@ -17,16 +26,14 @@
 		echo $this->Form->input('ownership_type');
 		echo $this->Form->input('area');
 		echo $this->Form->input('owner_name');
+		echo $this->Form->hidden('property_id', array('value' => $property['Property']['id']));
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Bpn Certificates'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Bpn Certificate Histories'), array('controller' => 'bpn_certificate_histories', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Bpn Certificate History'), array('controller' => 'bpn_certificate_histories', 'action' => 'add')); ?> </li>
-	</ul>
+<?php echo $this->Form->end(array(
+            'label' => __('Submit'),
+            'div' => array('class' => 'form-group'),
+            'class' => 'btn btn-default',
+            'before' => '<div class="col-sm-offset-2 col-sm-10">',
+            'after' => '</div>'
+    )); ?>
 </div>
