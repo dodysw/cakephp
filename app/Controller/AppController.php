@@ -32,7 +32,7 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
     public $components = array(
-        'DebugKit.Toolbar',
+        //'DebugKit.Toolbar',
         'Auth' => array(
             'authenticate' => array(
                 'Form' => array(
@@ -50,7 +50,9 @@ class AppController extends Controller {
             ),
             'authorize' => array('Controller'),
         ),
-        'Security',
+		'Security' => array(
+			'csrfUseOnce' => false
+		),
     );
     public $layout = 'bootstrap';
 
