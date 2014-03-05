@@ -9,7 +9,7 @@
 		echo $this->Html->meta('icon');
 
 		//echo $this->Html->css(array('bootstrap/bootstrap',  'bootstrap/bootstrap-theme'));
-		echo $this->Html->css(array('bootstrap/bootstrap', 'bootstrap/jumbotron-narrow', 'style.css'));
+		echo $this->Html->css(array('bootstrap/bootstrap', 'bootstrap/jumbotron', 'style.css'));
 		echo $this->Html->script(array('jquery', 'bootstrap/bootstrap'));
 
 		echo $this->fetch('meta');
