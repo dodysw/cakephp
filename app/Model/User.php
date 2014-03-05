@@ -37,7 +37,6 @@ class User extends AppModel {
             'equaltofield' => array(
                 'rule' => array('equalToField', 'password'),
                 'message' => 'Password confirmation must match',
-                'on' => 'create'
             )
         ),
         'current_password' => array(
